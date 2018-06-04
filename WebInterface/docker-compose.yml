@@ -1,0 +1,61 @@
+version: '3'  # version of compose format 
+
+services:
+  rest-api:
+    labels:
+    - "com.example.description=A REST API"
+    - "com.example.name=REST API"
+    build: ./rest_api  # path is relative to docker-compose.yml localtion
+    volumes:
+      - ./rest_api:/usr/src/app # mount point
+    ports:
+      - 5001:80  # ost:container
+    # environment:
+    #   -hostname=
+    links:
+      - fuseki
+    environment:
+      - FUSEKI=fuseki
+  fuseki:
+    labels:
+    - "com.example.description=A fuseki container"
+    - "com.example.name=Fuseki"
+    image: stain/jena-fuseki
+    ports:
+    - "3030:3030" 
+    expose:
+    - "3030"
+    volumes:
+    - ./fuseki:/fuseki/
+    environment:
+    - ADMIN_PASSWORD=pw123
+  graph_view:
+    build: ./graph_view
+    labels:
+    - "com.example.description=The tree visualizer"
+    - "com.example.name=graph_view" 
+    ports:
+    - "8060:80"
+    volumes: 
+    - ./graph_view/public-html:/usr/local/apache2/htdocs/
+    - ./graph_view/logs:/usr/local/apache2/logs  
+    depends_on:
+    - context_server  
+  list_view:
+    build: ./list_view
+    labels:
+    - "com.example.description=The tree visualizer"
+    - "com.example.name=list_view" 
+    ports:
+    - "8050:80"
+    volumes: 
+    - ./list_view/public-html:/usr/local/apache2/htdocs/
+    - ./list_view/logs:/usr/local/apache2/logs  
+    depends_on:
+    - context_server 
+  # context_server:
+  #   ports:
+  #   - "1337:1337"
+  #   build: ./context_server
+  #   volumes:
+  #   - ./context_server/app:/app
