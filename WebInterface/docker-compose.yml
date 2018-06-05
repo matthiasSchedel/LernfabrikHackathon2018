@@ -1,4 +1,4 @@
-version: '3'  # version of compose format 
+version: "2"  # version of compose format 
 
 services:
   rest-api:
@@ -39,8 +39,8 @@ services:
     volumes: 
     - ./graph_view/public-html:/usr/local/apache2/htdocs/
     - ./graph_view/logs:/usr/local/apache2/logs  
-    depends_on:
-    - context_server  
+    # depends_on:
+    # - context_server  
   list_view:
     build: ./list_view
     labels:
@@ -51,8 +51,8 @@ services:
     volumes: 
     - ./list_view/public-html:/usr/local/apache2/htdocs/
     - ./list_view/logs:/usr/local/apache2/logs  
-    depends_on:
-    - context_server 
+    # depends_on:
+    # - context_server 
   # context_server:
   #   ports:
   #   - "1337:1337"
