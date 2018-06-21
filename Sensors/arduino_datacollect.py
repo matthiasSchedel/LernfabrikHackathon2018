@@ -66,13 +66,13 @@ class SensorData:
         
         if(input_value=='simulate'):
             # case single event
-            s_data=SensorData.simulated_singleevent(self)
+            s_data=SensorData.simulated_singleevent()
             self.data.append(s_data)
             # case simulated measurement
             return s_data
         if(input_value=="simulate_series"):
             # case measurement
-            s_data=SensorData.simulated_simulated_measurement(self)
+            s_data=self.simulated_measurement()
             self.data.append(s_data)
             # case simulated measurement
             return s_data
@@ -174,7 +174,7 @@ class SensorData:
             plt.show()
             plt.savefig(str(self.product_id)+str(self.version)+".png")
             plt.close()
-        if(np.random.randint(size=(0,2))==1):
+        if(np.random.randint(0,2)==1):
             self.error_messages.append(" Something wrong with your criteria")
         
         return yerr
